@@ -1,0 +1,52 @@
+name: Repo Secret Sync Environment
+
+on:
+  workflow_call:
+    inputs:
+      reponame:
+        description: 'Repository name to run tests against'
+        type: string
+        required: false
+        default: ${{ github.event.repository.name }}
+    secrets:
+      API_TOKEN_GITHUB:
+        required: true
+
+jobs:
+  sync-dev2:
+    timeout-minutes: 30
+    name: Syncing secrets DEV 2
+    runs-on: ubuntu-latest
+    environment: development2
+    steps:
+      - name: Syncing secrets back
+        uses: Blue-Express/bx_templates/.github/workflows/secrets-sync-back.yml@main
+      - name: development env.
+        run: echo Create Development Environment!
+
+  sync-dev:
+    timeout-minutes: 30
+    name: Syncing secrets DEV
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      - name: development env.
+        run: echo Create Development Environment!
+
+  sync-qa:
+    timeout-minutes: 30
+    name: Syncing secrets QA
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Run a one-line script
+        run: echo Create Staging Environment!
+
+  sync-prod:
+    timeout-minutes: 30
+    name: Syncing secrets PROD
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Run a one-line script
+        run: echo Create Production Environment!
